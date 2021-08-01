@@ -26,7 +26,7 @@ while True:
     decoded_message = decode(message['payload'])
     print ("Message from client:", decoded_message)
 
-    print ("Error detected? ", not(verify(message['payload'], message["crc32"])))
+    print ("No errors have been detected in the message" if verify(message['payload'], message["crc32"]) else "An error has been detected in the message")
 
 
 connection.close()
