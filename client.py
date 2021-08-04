@@ -7,7 +7,7 @@ import binascii
 from config import HOST, PORT
 import random
 import pickle
-
+import time
 
 def convert_to_bits(text):
     bits = bin(int(binascii.hexlify(text.encode('utf-8', 'surrogatepass')), 16))[2:]
@@ -34,7 +34,14 @@ while True:
     #print(converted_bitarray)
     crc32 =  binascii.crc32(converted_bitarray)
     #print("crc32", crc32)
-    noisy_bitarray = add_noise(converted_bitarray)
-    clientSocket.send(pickle.dumps({'payload': noisy_bitarray, 'crc32': crc32}))
+    noisy_bitarray1 = add_noise(converted_bitarray)
+    noisy_bitarray2 = add_noise(converted_bitarray)
+    noisy_bitarray3 = add_noise(converted_bitarray)
+
+    clientSocket.send(pickle.dumps({'payload': noisy_bitarray1, 'crc32': crc32}))
+    time.sleep(0.5)
+    clientSocket.send(pickle.dumps({'payload': noisy_bitarray2, 'crc32': crc32}))
+    time.sleep(0.5)
+    clientSocket.send(pickle.dumps({'payload': noisy_bitarray3, 'crc32': crc32}))
 
 clientSocket.close()
